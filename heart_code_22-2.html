@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#160817">
+<title>Для тебя ❤️</title>
+<style>
+  :root { --pink:#ff4f91; --hot:#ff2f78; --cream:#fff1f7; }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100svh; overflow:hidden; color:var(--cream);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:
+      radial-gradient(ellipse at 50% 42%, rgba(255,45,120,.20), transparent 42%),
+      radial-gradient(ellipse at 15% 85%, rgba(142,40,120,.20), transparent 38%),
+      linear-gradient(145deg,#100713,#260b25 55%,#120714);
+    display:grid; place-items:center; padding:22px;
+  }
+  .stars, .stars::before, .stars::after {
+    position:fixed; inset:0; pointer-events:none;
+    background-image:radial-gradient(2px 2px at 15% 22%,#ffd5e6 45%,transparent 60%),
+      radial-gradient(1px 1px at 78% 18%,#fff 45%,transparent 60%),
+      radial-gradient(2px 2px at 87% 72%,#ff9bc4 45%,transparent 60%),
+      radial-gradient(1px 1px at 31% 81%,#fff 45%,transparent 60%),
+      radial-gradient(2px 2px at 62% 57%,#ffb8d5 45%,transparent 60%),
+      radial-gradient(1px 1px at 9% 58%,#fff 45%,transparent 60%);
+    opacity:.65; animation:twinkle 4s ease-in-out infinite alternate;
+  }
+  .stars::before,.stars::after { content:""; transform:translate(18px,24px) scale(1.2); opacity:.4; }
+  .stars::after { transform:translate(-20px,-13px) scale(.8); animation-delay:1.7s; }
+  @keyframes twinkle { from{opacity:.25} to{opacity:.8} }
+  .card { width:min(100%,390px); position:relative; text-align:center; z-index:1; }
+  h1 { font-size:clamp(22px,6vw,29px); line-height:1.25; margin:0 0 8px; font-weight:750; letter-spacing:.2px; }
+  .sub { color:#eab9d1; font-size:14px; margin:0 0 12px; }
+  .heart-wrap { height:210px; display:grid; place-items:center; position:relative; margin:0 auto 8px; }
+  .heart {
+    width:130px; height:130px; position:relative; transform:rotate(-45deg);
+    background:linear-gradient(135deg,#ff8db8 0%,#ff3d83 48%,#bd155d 100%);
+    box-shadow:0 0 22px #ff3d8377,0 0 60px #ff2f7860,inset 7px 7px 16px #ffd1e277,inset -8px -8px 18px #850c4566;
+    animation:beat 1.35s ease-in-out infinite;
+    border-radius:10px;
+  }
+  .heart::before,.heart::after { content:""; position:absolute; width:130px; height:130px; border-radius:50%; background:inherit; }
+  .heart::before { top:-65px; left:0; }
+  .heart::after { left:65px; top:0; }
+  .heart-core { position:absolute; z-index:2; font-size:29px; transform:translateY(2px); filter:drop-shadow(0 2px 5px #8b124b88); }
+  @keyframes beat { 0%,100%{transform:rotate(-45deg) scale(.91)} 15%{transform:rotate(-45deg) scale(1.02)} 30%{transform:rotate(-45deg) scale(.94)} 45%{transform:rotate(-45deg) scale(1)} }
+  .panel {
+    border:1px solid #ff8cbd55; background:linear-gradient(160deg,#ffffff12,#ffffff06);
+    border-radius:24px; padding:19px 18px 17px; box-shadow:0 15px 55px #0005, inset 0 1px #ffffff14;
+    backdrop-filter:blur(12px);
+  }
+  .prompt { font-size:16px; font-weight:650; margin:0 0 12px; }
+  .dots { display:flex; justify-content:center; gap:10px; margin:0 0 14px; min-height:18px; }
+  .dot { width:10px;height:10px;border-radius:50%; border:1px solid #ff9bc4; background:transparent; transition:.2s; }
+  .dot.filled { background:#ff75aa; box-shadow:0 0 12px #ff4f91; }
+  .keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  button {
+    color:#fff0f7; border:1px solid #ff9bc42b; border-radius:14px;
+    background:linear-gradient(145deg,#ffffff17,#ffffff08); min-height:48px;
+    font-size:20px; font-weight:650; cursor:pointer; transition:transform .12s,background .12s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  button:active { transform:scale(.95); background:#ff4f9138; }
+  button.utility { font-size:13px; color:#ffc6dc; }
+  .message { display:none; padding:13px 3px 3px; animation:appear .7s ease both; }
+  .message.show { display:block; }
+  .message h2 { color:#ff9fc5; font-size:clamp(28px,8vw,38px); margin:0 0 8px; text-shadow:0 0 22px #ff2f7860; }
+  .message p { margin:0; font-size:16px; line-height:1.6; }
+  .hint { min-height:19px; color:#ff9bc4; font-size:12px; margin:10px 0 0; }
+  .footer { margin-top:14px; color:#c98aa9; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; }
+  @keyframes appear { from{opacity:0;transform:translateY(10px) scale(.97)} to{opacity:1;transform:none} }
+  .sparkle { position:fixed; color:#ff8db8; opacity:0; animation:floatUp 5s linear infinite; pointer-events:none; }
+  @keyframes floatUp { 0%{transform:translateY(20px) scale(.7);opacity:0} 15%{opacity:.65} 85%{opacity:.5} 100%{transform:translateY(-110vh) scale(1.25);opacity:0} }
+  @media(max-height:720px) { .heart-wrap{height:165px}.heart{transform:rotate(-45deg) scale(.78);animation:beatSmall 1.35s ease-in-out infinite}.heart-core{font-size:25px} @keyframes beatSmall{0%,100%{transform:rotate(-45deg) scale(.72)}15%{transform:rotate(-45deg) scale(.81)}30%{transform:rotate(-45deg) scale(.75)}45%{transform:rotate(-45deg) scale(.79)}} .panel{padding:14px}.keypad{gap:6px}button{min-height:42px} }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<main class="card">
+  <h1>Когда мы начали встречаться?</h1>
+  <p class="sub">У меня есть для тебя маленький секрет 💌</p>
+  <div class="heart-wrap" aria-hidden="true"><div class="heart"></div><div class="heart-core">♡</div></div>
+  <section class="panel" id="panel">
+    <p class="prompt" id="prompt">Введи наш код 💗</p>
+    <div class="dots" id="dots" aria-label="Введённые цифры">
+      <span class="dot"></span><span class="dot"></span>
+    </div>
+    <div class="keypad" id="keypad">
+      <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+      <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+      <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+      <button class="utility" data-key="clear">Стереть</button><button data-key="0">0</button><button class="utility" data-key="back">⌫</button>
+    </div>
+    <p class="hint" id="hint" aria-live="polite"></p>
+    <div class="message" id="message">
+      <h2>Я тебя люблю ❤️</h2>
+      <p>Ты — моё самое любимое совпадение.<br>Спасибо, что ты есть у меня 🫶</p>
+      <p style="margin-top:12px;font-size:25px">💕 💗 💕</p>
+    </div>
+  </section>
+  <div class="footer">только для нас двоих · ♡</div>
+</main>
+<script>
+(() => {
+  let entered = "";
+  const dots = [...document.querySelectorAll(".dot")];
+  const hint = document.getElementById("hint");
+  const keypad = document.getElementById("keypad");
+  const message = document.getElementById("message");
+  const prompt = document.getElementById("prompt");
+  function render() { dots.forEach((dot,i) => dot.classList.toggle("filled", i < entered.length)); }
+  function press(key) {
+    if (key === "clear") { entered = ""; hint.textContent = ""; render(); return; }
+    if (key === "back") { entered = entered.slice(0,-1); hint.textContent = ""; render(); return; }
+    if (entered.length >= 2) return;
+    entered += key; render();
+    if (entered.length === 2) {
+      if (entered === "22") {
+        hint.textContent = "";
+        prompt.textContent = "Секрет открыт ✨";
+        keypad.style.display = "none";
+        document.getElementById("dots").style.display = "none";
+        message.classList.add("show");
+        document.querySelector(".sub").textContent = "Для самого дорогого человека 💞";
+      } else {
+        hint.textContent = "Почти… попробуй ещё раз 💕";
+        setTimeout(() => { entered = ""; render(); hint.textContent = ""; }, 850);
+      }
+    }
+  }
+  keypad.addEventListener("click", e => { const b = e.target.closest("button"); if (b) press(b.dataset.key); });
+  document.addEventListener("keydown", e => {
+    if (/^\d$/.test(e.key)) press(e.key);
+    if (e.key === "Backspace") press("back");
+    if (e.key === "Escape") press("clear");
+  });
+  for (let i=0;i<13;i++) {
+    const s=document.createElement("span"); s.className="sparkle"; s.textContent=["♡","♥","✦","💕"][i%4];
+    s.style.left=(Math.random()*100)+"%"; s.style.bottom="-30px";
+    s.style.animationDelay=(Math.random()*5)+"s"; s.style.animationDuration=(4+Math.random()*4)+"s";
+    s.style.fontSize=(12+Math.random()*16)+"px"; document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
